@@ -83,13 +83,6 @@ https://raw.githubusercontent.com/BricRoot/shadowrocket-rules/main/sr_top500_ad_
 └── .github/workflows/update.yml
 ```
 
-## 使用方法
-
-1.Fork或克隆本仓库
-2.修改`insert_rules.txt`
-3.提交更改
-4.GitHub Actions会自动生成新规则
-
 ## 说明
 
 * 本仓库仅用于规则整合与自动构建
