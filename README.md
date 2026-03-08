@@ -57,7 +57,7 @@ sr_cnip_ad_custom.conf
 订阅地址：
 
 ```
-https://raw.githubusercontent.com/<用户名>/shadowrocket-rules/main/sr_cnip_ad_custom.conf
+https://raw.githubusercontent.com/BricRoot/shadowrocket-rules/main/sr_cnip_ad_custom.conf
 ```
 
 Top500规则：
@@ -69,7 +69,7 @@ sr_top500_ad_custom.conf
 订阅地址：
 
 ```
-https://raw.githubusercontent.com/<用户名>/shadowrocket-rules/main/sr_top500_ad_custom.conf
+https://raw.githubusercontent.com/BricRoot/shadowrocket-rules/main/sr_top500_ad_custom.conf
 ```
 
 ## 仓库结构
