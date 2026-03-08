@@ -1,0 +1,2 @@
+RULE-SET,https://clashios.app/static/rules/bytedance-classical-set.yaml,PROXY
+RULE-SET,https://raw.githubusercontent.com/SunsetMkt/anti-ip-attribution/refs/heads/main/generated/quantumultx.list,PROXY
