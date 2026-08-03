@@ -10,19 +10,18 @@ git clone --depth=1 "$REPO" source
 
 find source -type f -name "*.conf" | while read file
 do
-    # 保留文件名，直接输出根目录
     name=$(basename "$file")
 
     cp "$file" "$name"
 
-    # 有 [Rules] 才插入
-    if grep -q "^\[Rules\]" "$name"; then
+    if grep -Eq "^\[(Rule|Rules)\]" "$name"; then
 
         echo "Update: $name"
 
         awk '
         BEGIN {inserted=0}
-        /^\[Rules\]/ && inserted==0 {
+
+        /^\[(Rule|Rules)\]/ && inserted==0 {
             print
             while ((getline line < "custom.rules") > 0)
                 print line
@@ -30,6 +29,7 @@ do
             inserted=1
             next
         }
+
         {
             print
         }
