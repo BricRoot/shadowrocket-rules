@@ -12,12 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update
+      - name: Generate rules
         run: |
-          chmod +x update.sh
-          ./update.sh
+          chmod +x generate.sh
+          ./generate.sh
 
-      - name: Commit
+      - name: Commit changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
