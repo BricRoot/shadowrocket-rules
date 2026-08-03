@@ -4,27 +4,21 @@ set -e
 
 REPO="https://github.com/johnshall/Shadowrocket-ADBlock-Rules-Forever.git"
 
-rm -rf source output
+rm -rf source
 
 git clone --depth=1 "$REPO" source
 
-mkdir -p output
-
 find source -type f -name "*.conf" | while read file
 do
-    # 获取相对路径，保持目录结构
-    relative="${file#source/}"
+    # 保留文件名，直接输出根目录
+    name=$(basename "$file")
 
-    target="output/$relative"
+    cp "$file" "$name"
 
-    mkdir -p "$(dirname "$target")"
+    # 有 [Rules] 才插入
+    if grep -q "^\[Rules\]" "$name"; then
 
-    cp "$file" "$target"
-
-    # 存在 [Rules] 才插入
-    if grep -q "^\[Rules\]" "$target"; then
-
-        echo "Updating: $relative"
+        echo "Update: $name"
 
         awk '
         BEGIN {inserted=0}
@@ -39,12 +33,14 @@ do
         {
             print
         }
-        ' "$target" > "$target.tmp"
+        ' "$name" > "$name.tmp"
 
-        mv "$target.tmp" "$target"
+        mv "$name.tmp" "$name"
 
     else
-        echo "Skip: $relative"
+        echo "Skip: $name"
     fi
 
 done
+
+rm -rf source
