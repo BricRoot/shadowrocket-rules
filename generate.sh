@@ -2,23 +2,49 @@
 
 set -e
 
-rm -rf source
-mkdir source
+REPO="https://github.com/johnshall/Shadowrocket-ADBlock-Rules-Forever.git"
 
-git clone --depth=1 https://github.com/johnshall/Shadowrocket-ADBlock-Rules-Forever.git source
+rm -rf source output
+
+git clone --depth=1 "$REPO" source
 
 mkdir -p output
 
-find source -name "*.conf" | while read file
+find source -type f -name "*.conf" | while read file
 do
-    name=$(basename "$file")
-    
-    cp "$file" "output/$name"
+    # 获取相对路径，保持目录结构
+    relative="${file#source/}"
 
-    if grep -q "^\[Rules\]" "output/$name"; then
-        sed -i "/^\[Rules\]/r custom.rules" "output/$name"
-    elif grep -q "^\[Rule\]" "output/$name"; then
-        sed -i "/^\[Rule\]/r custom.rules" "output/$name"
+    target="output/$relative"
+
+    mkdir -p "$(dirname "$target")"
+
+    cp "$file" "$target"
+
+    # 存在 [Rules] 才插入
+    if grep -q "^\[Rules\]" "$target"; then
+
+        echo "Updating: $relative"
+
+        awk '
+        BEGIN {inserted=0}
+        /^\[Rules\]/ && inserted==0 {
+            print
+            while ((getline line < "custom.rules") > 0)
+                print line
+            close("custom.rules")
+            inserted=1
+            next
+        }
+        {
+            print
+        }
+        ' "$target" > "$target.tmp"
+
+        mv "$target.tmp" "$target"
+
+    else
+        echo "Skip: $relative"
     fi
 
 done
